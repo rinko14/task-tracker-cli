@@ -8,7 +8,12 @@ def handle_command
   when 'add'
     task_description = ARGV[1]
     tasks = load_tasks
-    new_task_id = [tasks.length + 1, tasks.map { |task| task['id'] }.max + 1].max # NOTE: To avoid duplicate IDs
+    if tasks.empty?
+      new_task_id = tasks.length + 1
+    else
+      new_task_id = [tasks.length + 1, tasks.map { |task| task['id'] }.max + 1].max # NOTE: To avoid duplicate IDs
+    end
+
     new_task = Task.new(new_task_id, task_description)
     tasks << {
       id: new_task.id,
